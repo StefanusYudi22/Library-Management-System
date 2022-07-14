@@ -44,10 +44,44 @@ CREATE TABLE IF NOT EXISTS loan(
 );
 
 # function loan_days ==> return how many days should the book borrowed
+DELIMITER $$
+CREATE FUNCTION loan_duration(pages INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+	CASE
+		WHEN pages < 100 THEN RETURN 3;
+        WHEN pages < 300 THEN RETURN 5;
+        WHEN pages < 500 THEN RETURN 7;
+        ELSE RETURN 10;
+	END CASE;
+END $$
+DELIMITER ;
+
 
 # procedure show_list_user ==> procedure to get list of user
+DELIMITER $$
+CREATE PROCEDURE show_users()
+BEGIN
+	SELECT * FROM lib_user ORDER BY id_user;
+END $$
+DELIMITER ;
+
 # procedure show_book ==> procedure to get list of book
+DELIMITER $$
+CREATE PROCEDURE show_books()
+BEGIN
+	SELECT * FROM book ORDER BY id_book;
+END $$
+DELIMITER ;
+
 # procedure show_loan ==> procedure to get list of loan
+DELIMITER $$
+CREATE PROCEDURE show_loans()
+BEGIN
+	SELECT * FROM loan ORDER BY id_user, id_book;
+END $$
+DELIMITER ;
 
 # procedure search_user ==> procedure to show data about certain user
 # procedure seach_book ==> procedure to show data about certain book
