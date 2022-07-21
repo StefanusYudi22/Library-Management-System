@@ -35,11 +35,12 @@ CREATE TABLE IF NOT EXISTS loan(
     loan_date DATE,    # will be filled with default date of loan_function called
     supposed_return_date DATE,    # will be filled with loan_duration_function
     returned ENUM('YES','NOT YET') DEFAULT 'NOT YET',    # will be filled with return_function
-    returned_date DATE DEFAULT '0000-00-00',    # will be filled with default date of return_function called
+    returned_date DATE DEFAULT '1990-11-11',    # will be filled with default date of return_function called
     CONSTRAINT pk_loan PRIMARY KEY (id_user, id_book),
     CONSTRAINT fk_id_user FOREIGN KEY (id_user) REFERENCES lib_user(id_user),
 	CONSTRAINT fk_id_book FOREIGN KEY (id_book) REFERENCES book(id_book)
 );
+
 
 # function loan_days ==> return how many days should the book borrowed
 DELIMITER $$
@@ -80,6 +81,16 @@ BEGIN
 END $$
 DELIMITER ;
 
+# procedure show_returns ==> procedure to get returned book data
+DELIMITER $$
+CREATE PROCEDURE show_returns()
+BEGIN
+	SELECT  id_user, id_book, user_name, book_title, loan_date, returned_date
+    FROM loan
+    WHERE returned='YES';
+END $$
+DELIMITER ;
+
 # procedure search_user ==> procedure to show data about certain user
 DELIMITER $$
 CREATE PROCEDURE search_user_by_name(user_name VARCHAR(20))
@@ -88,9 +99,6 @@ BEGIN
     WHERE first_name REGEXP user_name OR last_name REGEXP user_name;
 END $$
 DELIMITER ;
-
-SELECT * FROM lib_user;
-CALL search_user_by_name('tang');
 
 # procedure seach_book ==> procedure to show data about certain book
 DELIMITER $$
@@ -111,6 +119,7 @@ BEGIN
         FROM lib_user AS lb, book AS bk 
         WHERE lb.id_user = user_id AND bk.id_book = book_id
     )SELECT * FROM source_table;
+	UPDATE book SET stock = stock-1 WHERE id_book = book_id;
 END $$
 DELIMITER ;
 
@@ -119,6 +128,7 @@ DELIMITER $$
 CREATE PROCEDURE return_book(user_id INT, book_id INT)
 BEGIN
 	UPDATE loan SET returned='YES', returned_date=curdate() WHERE id_user = user_id AND id_book = book_id;
+    UPDATE book SET stock = stock+1 WHERE id_book = book_id;
 END $$
 DELIMITER ;
 
@@ -136,6 +146,7 @@ BEGIN
 END $$
 DELIMITER ;
 
+# procedure input_user ==> to add user in the library
 DELIMITER $$
 CREATE PROCEDURE input_user(first_name VARCHAR(20), last_name VARCHAR(20), date_of_birth DATE, occupation VARCHAR(30), domicile VARCHAR(30))
 BEGIN
@@ -143,6 +154,7 @@ BEGIN
 END $$
 DELIMITER  ;
 
+# procedure input_book ==> to add books in the library
 DELIMITER $$
 CREATE PROCEDURE input_book(title VARCHAR(100), year_published YEAR, pages INT, _language ENUM('Bahasa','English','Deutch','Japan'), author VARCHAR(40), category ENUM('novel','comic','dictionary','scientific','biography','encyclopedia','thesis','magazine','history'), stock INT)
 BEGIN
@@ -157,14 +169,3 @@ INSERT INTO book (title, year_published, pages, _language, author, category, sto
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('boruto', '2022', '50', 'Japan', 'Masashi Kishimoto', 'comic', 15);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('one piece', '2022', '50', 'Japan', 'Oda Sensei', 'comic', 15);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('harry potter an the order of the phoenix', '2010', '600', 'English', 'JK Rowling', 'novel', 5);
-
-# -------------------------- (19/07/2022)
-USE library;
-SELECT * FROM lib_user;
-SELECT * FROM book;
-SELECT * FROM loan;
-CALL input_book('Dunia Saham','2022',75,'Bahasa','Kompas','scientific',10);
-CALL input_user('Dadang','Koswara','2002-12-05','Pedagang','Cicaheum');
-CALL show_users;
-CALL show_books;
-DESCRIBE lib_user;

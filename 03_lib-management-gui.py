@@ -1,6 +1,6 @@
 import mysql_connector as mysqlcon
 import tkinter as tk
-from tkinter import LEFT, RIGHT, ttk
+from tkinter import ttk
 
 root = tk.Tk()
 root.title("Library-Management-System")
@@ -64,10 +64,30 @@ def delete_entry_book():
     book_language_combobox.set("")
     book_category_combobox.set("")
 
+def return_book():
+    id_usr = user_id.get()
+    id_bk = book_id.get()
+    statement = f"""CALL return_book({id_usr},{id_bk})"""
+    mysqlcon.sql_execute(statement)
+
+def delete_return_entry():
+    return_user_combobox.set("")
+    return_book_combobox.set("")
+
 def exit_user():
     id_usr = user_id.get()
     statement = f"""CALL exit_user('{id_usr}')"""
     mysqlcon.sql_execute(statement)
+
+def loan_book():
+    id_usr = user_id.get()
+    id_book = book_id.get()
+    statement = f"""CALL loan_book({id_usr},{id_book})"""
+    mysqlcon.sql_execute(statement)
+
+def delete_loan_book():
+    loan_user_combobox.set("")
+    loan_book_combobox.set("")
 
 def delete_exit_entry():
     user_id_combobox.delete(0,'end')
@@ -77,7 +97,7 @@ def delete_search_user():
 
 def search_user():
     usr_name = user_name.get()
-    data = mysqlcon.retrieve_table('lib_user', f"search_user_by_name('{usr_name}')")
+    data = mysqlcon.retrieve_table(f"search_user_by_name('{usr_name}')")
     for i in range(len(data)):
         for j in range(len(data[0])):
             box = tk.Entry(frm4)
@@ -85,8 +105,21 @@ def search_user():
             box.insert('end',data[i][j])
             box.config(state='readonly')  
 
-def call_table(frame,table_name,procedure_name):
-    table = mysqlcon.retrieve_table(table_name,procedure_name)     # retrieve table user from database
+def delete_search_book():
+    search_book_entry.delete(0,'end')
+
+def search_book():
+    bk_name = book_title.get()
+    data = mysqlcon.retrieve_table(f"search_book_by_title('{bk_name}')")
+    for i in range(len(data)):
+        for j in range(len(data[0])):
+            box = tk.Entry(frm8)
+            box.grid(row=i+2, column=j+1)
+            box.insert('end',data[i][j])
+            box.config(state='readonly')  
+
+def call_table(frame,procedure_name):
+    table = mysqlcon.retrieve_table(procedure_name)     # retrieve table user from database
     for i in range(len(table)):
         for j in range(len(table[0])):
             box = tk.Entry(frame)
@@ -120,18 +153,18 @@ frm12 = tk.Frame(root)
 frm12.grid(row=0,column=0,sticky='news')
 
 # Main Menu
-tk.Button(frm1, text="New User Registration", command=lambda:frm2.tkraise()).grid(column=0, row=0)
-tk.Button(frm1, text="Clear User", command=lambda:frm3.tkraise()).grid(column=1, row=0)
-tk.Button(frm1, text="Search User", command=lambda:frm4.tkraise()).grid(column=2, row=0)
-tk.Button(frm1, text="Show List of User", command=lambda:[frm5.tkraise(),call_table(frm5,'lib_user','show_users()')]).grid(column=0, row=1)
-tk.Button(frm1, text="New Book Registration", command=lambda:frm6.tkraise()).grid(column=1, row=1)
-tk.Button(frm1, text="Show List of Book", command=lambda:[frm7.tkraise(),call_table(frm7,'book','show_books()')]).grid(column=2, row=1)
-tk.Button(frm1, text="Seach Book", command=lambda:frm8.tkraise()).grid(column=0, row=2)
-tk.Button(frm1, text="Loan Book", command=lambda:frm9.tkraise()).grid(column=1, row=2)
-tk.Button(frm1, text="Show List of Loan", command=lambda:[frm10.tkraise(),call_table(frm10,'loan','show_loans()')]).grid(column=2, row=2)
-tk.Button(frm1, text="Return Book", command=lambda:frm11.tkraise()).grid(column=0, row=3)
-tk.Button(frm1, text="Show List of Return", command=lambda:frm12.tkraise()).grid(column=1, row=3)
-tk.Button(frm1, text="Quit", command=root.destroy).grid(column=2, row=3)
+tk.Button(frm1, text="New User Registration", command=lambda:frm2.tkraise()).grid(column=0, row=0, sticky='we')
+tk.Button(frm1, text="Clear User", command=lambda:frm3.tkraise()).grid(column=1, row=0, sticky='we')
+tk.Button(frm1, text="Search User", command=lambda:frm4.tkraise()).grid(column=2, row=0, sticky='we')
+tk.Button(frm1, text="Show List of User", command=lambda:[frm5.tkraise(),call_table(frm5,'show_users()')]).grid(column=0, row=1, sticky='we')
+tk.Button(frm1, text="New Book Registration", command=lambda:frm6.tkraise()).grid(column=1, row=1, sticky='we')
+tk.Button(frm1, text="Show List of Book", command=lambda:[frm7.tkraise(),call_table(frm7,'show_books()')]).grid(column=2, row=1, sticky='we')
+tk.Button(frm1, text="Seach Book", command=lambda:frm8.tkraise()).grid(column=0, row=2, sticky='we')
+tk.Button(frm1, text="Loan Book", command=lambda:frm9.tkraise()).grid(column=1, row=2, sticky='we')
+tk.Button(frm1, text="Show List of Loan", command=lambda:[frm10.tkraise(),call_table(frm10,'show_loans()')]).grid(column=2, row=2, sticky='we')
+tk.Button(frm1, text="Return Book", command=lambda:frm11.tkraise()).grid(column=0, row=3, sticky='we')
+tk.Button(frm1, text="Show List of Return", command=lambda:[frm12.tkraise(),call_table(frm12,'show_returns()')]).grid(column=1, row=3, sticky='we')
+tk.Button(frm1, text="Quit", command=root.destroy).grid(column=2, row=3, sticky='we')
 
 # New User Registration
 tk.Button(frm2, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
@@ -174,7 +207,7 @@ tk.Button(frm3, text="Delete User", command=lambda:[exit_user(),delete_exit_entr
 
 # Search User
 tk.Button(frm4, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
-tk.Label(frm4, text="user_name : ").grid(column=1, row=0)
+tk.Label(frm4, text="user_name : ").grid(column=1, row=0, sticky='w')
 user_name_entry = ttk.Entry(frm4, textvariable=user_name)
 user_name_entry.grid(column=2, row=0)
 tk.Button(frm4, text="Search", command=lambda:[search_user(),delete_search_user()]).grid(column=2, row=1)
@@ -216,26 +249,30 @@ book_category_combobox.grid(column=2, row=5, sticky='w')
 tk.Button(frm6, text="Submit", command=lambda:[input_book(),delete_entry_book()]).grid(row=7, column=2, pady=5)
 tk.Button(frm6, text="Delete All", command=delete_entry_book).grid(row=7, column=1, pady=5)
 
-
-
 # Show List of Books
 tk.Button(frm7, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
 
 # Search book 
 tk.Button(frm8, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
-tk.Label(frm8, text="book_id : ").grid(column=1, row=0)
-tk.Label(frm8, text="book_title : ").grid(column=1, row=1)
-ttk.Combobox(frm8, textvariable=book_id, values=list(range(1000,1051))).grid(column=2, row=0)
-tk.Entry(frm8, textvariable=book_title).grid(column=2, row=1)
-tk.Button(frm8, text="Search").grid(column=1, row=2)
+tk.Label(frm8, text="book_title : ").grid(column=1, row=0, sticky='w')
+search_book_entry = tk.Entry(frm8, textvariable=book_title)
+search_book_entry.grid(column=2, row=0, sticky='w')
+tk.Button(frm8, text="Search", command=lambda:[search_book(), delete_search_book()]).grid(column=1, row=1, pady=5)
+tk.Button(frm8, text="Delete", command=delete_search_book).grid(column=2, row=1, pady=5)
 
 # Loan Book
 tk.Button(frm9, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
 tk.Label(frm9, text="user_id : ").grid(column=1, row=0)
 tk.Label(frm9, text="book_id : ").grid(column=1, row=1)
-ttk.Combobox(frm9, textvariable=user_id, values=list(range(1,51))).grid(column=2, row=0)
-ttk.Combobox(frm9, textvariable=book_id, values=list(range(100,1051))).grid(column=2, row=1)
-tk.Button(frm9, text="Loan").grid(column=1, row=2)
+
+loan_user_combobox = ttk.Combobox(frm9, textvariable=user_id, values=mysqlcon.retrieve_id_user())
+loan_book_combobox = ttk.Combobox(frm9, textvariable=book_id, values=mysqlcon.retrieve_id_book())
+
+loan_user_combobox.grid(column=2, row=0)
+loan_book_combobox.grid(column=2, row=1)
+
+tk.Button(frm9, text="Loan", command=lambda:[loan_book(), delete_loan_book()]).grid(column=1, row=2)
+tk.Button(frm9, text="Delete", command=delete_loan_book).grid(column=2, row=2)
 
 # Show List of Loan
 tk.Button(frm10, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
@@ -244,9 +281,18 @@ tk.Button(frm10, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=
 tk.Button(frm11, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
 tk.Label(frm11, text="user_id : ").grid(column=1, row=0)
 tk.Label(frm11, text="book_id : ").grid(column=1, row=1)
-ttk.Combobox(frm11, textvariable=user_id, values=list(range(1,51))).grid(column=2, row=0)
-ttk.Combobox(frm11, textvariable=book_id, values=list(range(100,1051))).grid(column=2, row=1)
-tk.Button(frm11, text="Return").grid(column=1, row=2)
+
+return_user_combobox = ttk.Combobox(frm11, textvariable=user_id, values=mysqlcon.retrieve_id_user_loan())
+def callback(event):
+    return_book_combobox['values'] = mysqlcon.retrieve_id_book_loan(user_id.get())
+return_user_combobox.bind('<<ComboboxSelected>>', callback)
+return_book_combobox = ttk.Combobox(frm11, textvariable=book_id)
+
+return_user_combobox.grid(column=2, row=0)
+return_book_combobox.grid(column=2, row=1)
+
+tk.Button(frm11, text="Return", command=lambda:[return_book(),delete_return_entry()]).grid(column=1, row=2)
+tk.Button(frm11, text="Delete", command=delete_return_entry).grid(column=2, row=2)
 
 # Show List Of Returned
 tk.Button(frm12, text="Back", command=lambda:frm1.tkraise()).grid(column=0, row=0)
