@@ -13,8 +13,8 @@ class StartPage:
 
         # frame for sat application image
         self.frame_image = tk.Frame(self.main_frame)
-        self.raw_image = Image.open("image/sat application.png")     # unresize picture
-        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((150,75), Image.ANTIALIAS))
+        self.raw_image = Image.open("image/sat lms.png")     # unresize picture
+        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((246,75), Image.ANTIALIAS))
         tk.Label(self.frame_image, image=self.resized_image).pack()
         self.frame_image.pack(padx=5, pady=5)
 
@@ -270,20 +270,34 @@ class Show:
         self.app = app                                             
         self.procedure = procedure
         self.main_frame = tk.Frame(self.master)
-        #self.v = tk.Scrollbar(self.main_frame, orient='vertical')
-        #self.v.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.main_canvas = tk.Canvas(self.main_frame)
+        self.main_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.main_canvas.configure(height=600)
+
+        self.scroolbar = ttk.Scrollbar(self.main_frame, orient='vertical', command=self.main_canvas.yview)
+        self.scroolbar.pack(side=tk.RIGHT, fill='y')    
+
+        self.main_canvas.configure(yscrollcommand=self.scroolbar.set)
+        self.main_canvas.bind('<Configure>', lambda e: self.main_canvas.configure(scrollregion = self.main_canvas.bbox("all")))
+        
+        self.second_frame = tk.Frame(self.main_canvas)
+        self.second_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.main_canvas.create_window((450,0), window=self.second_frame, anchor="n")
 
         # frame for data table
-        self.frame_table = tk.Frame(self.main_frame)
-        self.frame_table.pack(padx=10, pady=10)
+        self.frame_table = tk.Frame(self.second_frame)
+        self.frame_table.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
 
         # frame for button
-        self.frame_button = tk.Frame(self.main_frame)
+        self.frame_button = tk.Frame(self.second_frame)
         self.frame_button.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         tk.Button(self.frame_button, text="Back", command=self.go_back).pack(side=tk.LEFT)
     
+
     def start_page(self):
-        self.main_frame.pack()
+        self.main_frame.pack(fill=tk.BOTH, expand=True)
         self.table = mysqlcon.retrieve_table(self.procedure)     # retrieve table from database
         for i in range(len(self.table)):    # data row
             for j in range(len(self.table[0])):    # data column
@@ -311,7 +325,15 @@ class Show:
 
                 self.box.grid(row=i, column=j+1, sticky='we')
                 self.box.config(text = self.table[i][j])
-                #self.box.config(state='readonly')
+        
+        if self.procedure == "show_users":
+            self.main_canvas.configure(width=630)
+        elif self.procedure == "show_books" : 
+            self.main_canvas.configure(width=820)
+        elif self.procedure == "show_loans" :
+            self.main_canvas.configure(width=890)
+        else :
+            self.main_canvas.configure(width=670)
 
     def go_back(self):
         self.main_frame.pack_forget()
@@ -459,7 +481,7 @@ class BookTransaction:
         if self.transaction_type == "loan":
              self.select_book_id['values'] = mysqlcon.retrieve_id_book()
         else :
-             self.select_book_id['values'] = mysqlcon.retrieve_id_book_loan(self.var_user_id.get())
+             self.select_book_id['values'] = mysqlcon.retrieve_id_book_loan(self.var_user_id.get().split('-')[0])
 
     def clear_transaction(self):
         self.select_user_id.set("")
@@ -469,10 +491,10 @@ class BookTransaction:
         try : 
             if self.transaction_type == "loan":
                 self.registration_label.config(text="Book Loaned", fg='green')
-                statement = f"CALL loan_book({self.var_user_id.get()},{self.var_book_id.get()})" 
+                statement = f"CALL loan_book({self.var_user_id.get().split('-')[0]},{self.var_book_id.get().split('-')[0]})" 
             else:
                 self.registration_label.config(text="Book Returned", fg='green')
-                statement = f"CALL return_book({self.var_user_id.get()},{self.var_book_id.get()})"
+                statement = f"CALL return_book({self.var_user_id.get().split('-')[0]},{self.var_book_id.get().split('-')[0]})"
         
             mysqlcon.sql_execute(statement)
             self.clear_transaction()
@@ -517,7 +539,7 @@ class DeleteUser:
     
     def delete_user(self):
         try : 
-            statement = f"""CALL exit_user('{self.var_user_id.get()}')"""
+            statement = f"""CALL exit_user('{self.var_user_id.get().split('-')[0]}')"""
             mysqlcon.sql_execute(statement)
             self.clear_delete_user()
             self.registration_label.config(text="User deleted", fg='green')

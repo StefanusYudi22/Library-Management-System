@@ -162,10 +162,68 @@ BEGIN
 END $$
 DELIMITER  ;
 
-# Dummy data for support
-INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('richard', 'hompton', '1996-05-16', 'office worker', 'seatle');
-INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('stefan', 'willey', '1992-04-22', 'mine workter', 'jakarta');
-INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('naturo', '2022', '50', 'Japan', 'Masashi Kishimoto', 'comic', 15);
-INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('boruto', '2022', '50', 'Japan', 'Masashi Kishimoto', 'comic', 15);
-INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('one piece', '2022', '50', 'Japan', 'Oda Sensei', 'comic', 15);
-INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('harry potter an the order of the phoenix', '2010', '600', 'English', 'JK Rowling', 'novel', 5);
+# Dummy data for user
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('ahmad', 'kurniawan', '1996-05-16', 'office worker', 'bandung');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('ilham', 'budi', '1992-04-22', 'mine workter', 'tebet');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('ratih', 'pratiwi', '1988-07-24', 'house wife', 'depok');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('nurul', 'putra', '1997-11-21', 'student', 'semarang');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('wulandari', 'kartika', '1967-09-12', 'banker', 'cimahi');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('anita', 'handayani', '2008-11-01', 'sales', 'soreang');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('retno', 'kurnia', '2005-12-25', 'teacher', 'andir');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('agustina', 'amalia', '2000-05-24', 'mechanic', 'sleman');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('intan', 'maya', '1999-01-06', 'programmer', 'karanganyar');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('widya', 'ade', '1989-08-13', 'service cleaner', 'BSD');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('surya', 'hidayat', '1966-07-15', 'athlete', 'surabaya');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('diana', 'nur', '2010-09-15', 'marketer', 'gunung kidul');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('novi', 'anggraini', '2007-04-23', 'researcher', 'cimindi');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('irma', 'astuti', '1987-12-01', 'farmer', 'lembang');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('aulia', 'saputra', '1999-09-11', 'office worker', 'purwakarta');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('eva', 'amelia', '2003-02-09', 'stident', 'cirebon');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('hidayat', 'saputra', '2005-04-16', 'mechanic', 'kuningan');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('setiawan', 'arief', '1997-06-28', 'office worker', 'jakarta selatan');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('wahyuni', 'munaroh', '1976-06-22', 'constructor', 'serpong');
+INSERT INTO lib_user (first_name, last_name, date_of_birth, occupation, domicile) VALUES ('bagus', 'eko', '2009-06-07', 'architec', 'rangkasbitung');
+
+# Dummay data for book
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Laskar Pelangi', '2010', '529', 'Bahasa', 'andrea hirata', 'novel', 5);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Boruto Comic', '2021', '50', 'Japan', 'Masashi Kishimoto', 'comic', 15);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('One Piece Comic', '2021', '59', 'Japan', 'Oda Sensei', 'comic', 15);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Harry Potter and The Order Of The Phoenix', '2003', '1000', 'English', 'JK Rowling', 'novel', 1);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Sepatu Dahlan', '2015', '369', 'Bahasa', 'Tiar Yuniar', 'novel', 3);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Sang Pemimpi', '2003', '248', 'Bahasa', 'Nurul Padmasari', 'novel', 2);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Ensiklopedia Luar Angkasa', '2010', '258', 'Sarah Hassanah', 'Space Station', 'encyclopedia', 10);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Trik Jitu Saham', '2019', '100', 'Bahasa', 'Vanya Farida', 'magazine', 9);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Fairy Tail Comic', '1986', '255', 'Japan', 'Yulia Purwanti', 'comic', 12);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('What is a Car', '1989', '59', 'Deutch', 'Karimah Wijayanti', 'scientific', 25);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Sejarah G30SPKI', '2006', '309', 'Bahasa', 'Uchita Wulandari', 'history', 10);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Enistein Biography', '2008', '485', 'English', 'Padmi Hariyah', 'biography', 5);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Hari itu Kelam', '2009', '256', 'English', 'Lurhur Waluyo', 'novel', 1);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('How To Create Factory', '2017', '126', 'Japan', 'Vicky Yuniar', 'thesis', 2);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Tesla Biography', '2015', '453', 'Deutch', 'Nilam Puspita', 'biography', 5);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Famous Person Dictionary', '1989', '55', 'English', 'Legawa Utama', 'dictionary', 16);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Marvel Comic', '1996', '259', 'English', 'Indah Prastuti', 'comic', 30);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Biografi Dahlan Iskan', '2009', '357', 'Bahasa', 'Lukita Tamba', 'biography', 9);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Perancangan Pabrik Kimia', '2021', '155', 'Bahasa', 'Siti Kuswandari', 'thesis', 25);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Sejarah Kota Bandung', '2018', '173', 'Bahasa', 'Faizah Yulianti', 'history', 13);
+
+# Dummy data for loan
+CALL loan_book(1, 1015);
+CALL loan_book(18, 1009);
+CALL loan_book(5, 1001);
+CALL loan_book(7, 1001);
+CALL loan_book(9, 1008);
+CALL loan_book(1, 1009);
+CALL loan_book(3, 1019);
+CALL loan_book(1, 1015);
+CALL loan_book(3, 1018);
+CALL loan_book(15, 1018);
+CALL loan_book(16, 1008);
+CALL loan_book(14, 1013);
+CALL loan_book(13, 1007);
+CALL loan_book(9, 1008);
+CALL loan_book(8, 1010);
+CALL loan_book(7, 1011);
+CALL loan_book(4, 1011);
+CALL loan_book(3, 1004);
+CALL loan_book(2, 1005);
+CALL loan_book(1, 1000);

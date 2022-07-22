@@ -2,8 +2,8 @@ import mysql.connector
 from mysql.connector import Error
 
 host_name = "localhost"
-user_name = "root"
-password = "kmzway87aa"
+user_name = "lms_admin"
+password = "lms_admin_123"
 db = "library"
 
 
@@ -29,39 +29,39 @@ def retrieve_table(procedure):
 def retrieve_id_user():
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
-    mycursor.execute('SELECT id_user FROM lib_user')
+    mycursor.execute('SELECT id_user, CONCAT(first_name," ",last_name) AS full_name FROM lib_user')
     id_user = []
-    for id_u in mycursor.fetchall():
-        id_user.append(id_u[0])
+    for id_u, name_u in mycursor.fetchall():
+        id_user.append(f"{id_u}-{name_u}")
     mycursor.close()
     return id_user
 
 def retrieve_id_book():
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
-    mycursor.execute('SELECT id_book FROM book')
+    mycursor.execute('SELECT id_book, title FROM book WHERE stock > 0')
     id_book = []
-    for id_b in mycursor.fetchall():
-        id_book.append(id_b[0])
+    for id_b, tit_b in mycursor.fetchall():
+        id_book.append(f"{id_b}-{tit_b}")
     mycursor.close()
     return id_book
 
 def retrieve_id_user_loan():
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
-    mycursor.execute("SELECT DISTINCT id_user FROM loan WHERE returned='NOT YET'")
+    mycursor.execute("SELECT DISTINCT id_user, user_name FROM loan WHERE returned='NOT YET'")
     id_user = []
-    for id_u in mycursor.fetchall():
-        id_user.append(id_u[0])
+    for id_u,name_u in mycursor.fetchall():
+        id_user.append(f"{id_u}-{name_u}")
     mycursor.close()
     return id_user
 
 def retrieve_id_book_loan(id_user):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
-    mycursor.execute(f"SELECT id_book FROM loan WHERE id_user={id_user} AND returned='NOT YET'")
+    mycursor.execute(f"SELECT id_book, book_title FROM loan WHERE id_user={id_user} AND returned='NOT YET'")
     id_book = []
-    for id_b in mycursor.fetchall():
-        id_book.append(id_b[0])
+    for id_b, tit_b in mycursor.fetchall():
+        id_book.append(f"{id_b}-{tit_b}")
     mycursor.close()
     return id_book
