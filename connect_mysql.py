@@ -1,19 +1,14 @@
 import mysql.connector
 from mysql.connector import Error
 
-host_name = "localhost"
-user_name = "lms_admin"
-password = "lms_admin_123"
-db = "library"
-
-def sql_execute(statement):
+def sql_execute(statement, host_name, user_name, password, db):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
     mycursor.execute(statement)
     mydb.commit()
     mycursor.close()
 
-def retrieve_table(procedure):
+def retrieve_table(procedure, host_name, user_name, password, db):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
     mycursor.execute(f"CALL {procedure}")
@@ -25,7 +20,7 @@ def retrieve_table(procedure):
     mycursor.close()
     return content_table
 
-def retrieve_id_user():
+def retrieve_id_user(host_name, user_name, password, db):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
     mycursor.execute('SELECT id_user, CONCAT(first_name," ",last_name) AS full_name FROM lib_user')
@@ -35,7 +30,7 @@ def retrieve_id_user():
     mycursor.close()
     return id_user
 
-def retrieve_id_book():
+def retrieve_id_book(host_name, user_name, password, db):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
     mycursor.execute('SELECT id_book, title FROM book WHERE stock > 0')
@@ -45,7 +40,7 @@ def retrieve_id_book():
     mycursor.close()
     return id_book
 
-def retrieve_id_user_loan():
+def retrieve_id_user_loan(host_name, user_name, password, db):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
     mycursor.execute("SELECT DISTINCT id_user, user_name FROM loan WHERE returned='NOT YET'")
@@ -55,7 +50,7 @@ def retrieve_id_user_loan():
     mycursor.close()
     return id_user
 
-def retrieve_id_book_loan(id_user):
+def retrieve_id_book_loan(id_user, host_name, user_name, password, db):
     mydb = mysql.connector.connect(host=host_name, user=user_name, passwd=password, database=db)
     mycursor = mydb.cursor()
     mycursor.execute(f"SELECT id_book, book_title FROM loan WHERE id_user={id_user} AND returned='NOT YET'")
