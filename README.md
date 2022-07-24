@@ -1,4 +1,5 @@
 <p align="center"><img width=1000 src="sat_lms.png"></p>
+<p align="center"><text>Stefanus Yudi Irwan | Pacmann User Name : stefanus-flri</text></p>
 
 __`SAT Library Management System`__ is an application for helping librarian do the job. This app was designed using `python` as basic programming language and `mysql` as database. [`Tkinter`](https://pypi.org/project/tk/), [`Pillow`](https://pypi.org/project/Pillow/), and [`MySQLConnector`](https://pypi.org/project/mysql-connector-python/) are the third party library use to create this app. This app was developed using windows, compatibility with UNIX operation system need to be tested for futher development. 
 
@@ -68,7 +69,7 @@ This project purpose is to develop an application to help librarian do his/her t
 > Graphical User Interface was designed for the sake of librarian ease. Third party library `tkinter` and `pillow` serve as building block for this app GUI. `Tkinter` is GUI builder which comprises of `frame or canvas` and `children or widget` which arraged using `layout manager` method, and `pillow` was use so we could insert some image to the GUI.<br>
 
 >`Object Oriented Program` style was mainly used to develop this GUI app. Every `menu group` in this app designed to be encapsulated into one class, then every `menu` will be act as instance of this class. Inside every class, `frame` and `widget` are arranged to construct GUI, function from connector then embeded to specific `widget` to connect GUI to database. Here is the list of class and instance in `lib-management-gui-app.py`
-
+<p align=center>
 <table>
     <thead>
         <tr>
@@ -126,6 +127,7 @@ This project purpose is to develop an application to help librarian do his/her t
         </tr>
     </tbody>
 </table>
+</p>
 
 ### 6. Test, correct, update, and enhance the code defense
 >After GUI, connector, and database finish and whole program can be executed, then development continued to test the application. Several error was foound when developing, but that was good to enhance the application defence to false input from the user, and make sure the application function as intended. After this step every menu now have a `good defense` if librarian fail to input necessary data to the database. 
