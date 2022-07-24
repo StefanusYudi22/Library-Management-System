@@ -1,76 +1,75 @@
-<p align="center"><img src="image/sat lms.png"></p>
+<p align="center"><img width=1000 src="image/sat lms.png"></p>
 
-__SAT Library management system__ is an application for helping librarian do the job. This is simple app, designed using `python` as basic programming language and `mysql` as it’s database. `Tkinter`, `Pillow`, and `MySQLConnector` are the third party library use to create this app.
+__`SAT Library Management System`__ is an application for helping librarian do the job. This app was designed using `python` as basic programming language and `mysql` as database. `Tkinter`, `Pillow`, and `MySQLConnector` are the third party library use to create this app. This app was developed using windows, compatibility with UNIX operation system need to be tested for futher development. 
+
 <p align="center">
-<img width=153 src="image/tkinter_logo.jpg">
-<img width=200 src="image/pillow_logo.jpg">
-<img width=148 src="image/mysql_logo.jpg">
+<img height=150 src="image/tkinter_logo.jpg">
+<img height=150 src="image/pillow_logo.jpg">
+<img height=150 src="image/mysql_logo.jpg">
 </P>
 
-This app function such as :
+__`SAT Library Management System`__ app capability such as :
  - library member and book data storage
- - do transaction such as loan or return the book
- - search book and user by it’s name
- - show list of stored user data and book data 
+ - transaction such as loan or return books
+ - search registered book and user inside the library database
+ - show list of stored user data, book data, and transaction data 
 
-## Project Purpose
-This project intended to develop an application to help librarian do his/her regular task. This app function as gui for input and show library data, and database for data storage. 
+## Project purpose
+This project purpose is to develop an application to help librarian do his/her task. This app could become helper for librarian to manage his/her library data. This app main function is to become user interface for librarian to input data to library database and to store library data. Further this project also able to be `building block` for another project which will use `mysql database` and `python gui` in particular, or `database` and more `shopisticated gui` in common. The code structure of this project could become reference if reader want to build an app based on just python and mysql. Its free to use enjoy. 
 
-## Step By Step Project
-### 1. Define requirement menu for this application<br>
-> After defining the requirement, it is found that this appllication need following capability
-> - input data for library new member
-> - input data for new book collection
-> - input data for book transaction (loan or returned)
-> - show data of library users, book, loaned book, and returned book
-> - search user data and book data inside the library database
+## Project step by step
+### 1. Define requirements menu for this application<br>
+> For the sake of librarian ease, the appllication was designed with this following capability : 
+> - data input for library new member ,new book collection, and book transaction (loan or returned)
+> - data show and storage for library users, book, loaned book, and returned book
+> - data registered search for user, book, and transaction
 
-### 2. Create the Database Structure<br>
-> Database designed by using three table with following entiry relationsip diagram 
+### 2. Create the database Structure<br>
+> Based on requirement, database then designed comprises of three table with following relation. MySQL workbench in windows OS was used to create the database and these three table
 
-> <p align="center"><img height=200 src="image/erd_database.jpg"></p>
+> <p align="center"><img width=600 src="image/erd_database.jpg"></p>
 
-> `lib_user` table use to store the library member data, this table comprises of field :
+>**Table 1** : `lib_user` table designed to store the library member data, this table comprises of field :
 
-| id_user | first_name | last_name | date_of_birth | occupation | domicile | registration_date |
-|:---|:---:|:---:|:---:|:---:|:---:|---:|
+> | id_user | first_name | last_name | date_of_birth | occupation | domicile | registration_date |
+>|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 
 > `id_user` and `registration_date` designed to be autofilled by mysql
 
-> `book` table use to store the library book data, this table comprises of field:
+>**Table 2** : `book` table designed to store the library book data, this table comprises of field:
+>| id_book | title | year_published | pages | _language | author | category | stock |
+>|:---|:---:|:---:|:---:|:---:|:---:|:---:|---:|
 
-| id_book | title | year_published | pages | _language | author | category | stock |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|---:|
+> `id_book` designed to be autodilled by mysql. `pages` field are very necessary for book data, because value from this field will determine how many days does the library user could borrow the book. Some calculation are designed based on this `pages`value. `stock` field represent the book amount stored in the library. If user borrow a book, then this stock value will decrease, otherwise if someone return book, stock value will increase. 
 
-> `id_book` designed to be autodilled by mysql
+>**Table 3** : `loan` table designed to store book transaction data (loan and return), this table comprises of field : 
 
-> `loan` table use to store book transaction (loan and return) data for the libary. This table comprises of 
+> | transaction_id | id_user | id_book | user_name | book_title | loan_date | supposed_return_date | returned | return_date |
+> |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|--:|
 
-| transaction_id | id_user | id_book | user_name | book_title | loan_date | supposed_return_date | returned | return_date |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|--:|
-
-> - `id_user`,`id_book`, `user_name`, and `book_title`, will be autofilled from other table.
+> - `id_user`,`id_book`, `user_name`, and `book_title`, will be autofilled from table `lib_user` and `book`.
 > - `loan_date` will be auto-filled with transaction date.
-> - `supposed_return_date` will be filled by function
-> - `loan_duration` which count loan days based on book pages. The more pages the book, the more days user can borrow it.
-> - `retured` will be auto-filled with `YES` or `NO` describing if the book has been returned or not.
+> - `supposed_return_date` will be filled by output `function loan_duration` which count loan days based on book pages. The book has page, the more days user can borrow it.
+> - `returned` will be auto-filled with value `YES` or `NO` describing if the user has returned the book or not.
 > - `return_date` will be auto-filled with returned transaction date. 
 
-### 3. Create Function and Procedure for the Database<br>
-> Because the activity of this application is limited, it is a good idea to make `procedures` and `function`, this also will make the connector and python more simple to code. Following is the list of function and procedure in this project
+### 3. Create function and Procedure for the database
+> Because the activity of this application is limited, it is a good idea to make `procedures` and `function` inside the database. This also will make the python side more simple to code. Based on defined requirement,  following is the list of designed function and procedure to interact with library database.
 
 |Procedure|input_user, show_users, show_books, show_loans, show_returns, search_user_by_name, search_book_by_title, loan_book, return_book, exit_user|
 |:---:|:---|
 |Function|loan_duration|
+ 
+#### Note : Tables, procedures, and functions was encapsulated inside mysql script file `library-management-db.sql` 
 
-This table and function was encapsulated inside mysql script file `library-management-db.sql` 
-
-### 4. Create Connector for Database to Python
-Connector was designed to connect mysql database to python GUI. `connect_mysql.py` files contain necesarry function to connect database to GUI. It is made separated from GUI python code to maintain code modularity. This file later imported to `lib-management-gui-app.py` to fully functioning this app
+### 4. Create connector for database to python
+> Connector function to connect mysql database to python GUI. This connector designed by using `mysql.Connector`, third party python library use to connect python program to mysql-server database. For this project `connect_mysql.py` files contain necesarry function to connect `library database` to `library app GUI`. It is made separated from GUI python code to maintain code modularity. This file later imported to GUI python code `lib-management-gui-app.py` to fully function. 
 
 ### 5. Create GUI for every menu defined
 
-GUI was designed by using library `tkinter` and `pillow`. `Tkinter` basic building comprises of `frame or canvas` and `children or widget` which arraged using `layout manager` method. `Object Oriented Program` style was mainly used to develop this app. Every menu group in this app designed to be encapsulated into one class, then every menu will be act as instance of this class. Inside every class, `frame` and `widget` are arranged to construct GUI menu, function from connector are embeded to specific `widget` to connect GUI to database. Here is the list of class and instance in `lib-management-gui-app.py`
+> Graphical User Interface was designed for the sake of librarian ease. Third party library `tkinter` and `pillow` serve as building block for this app GUI. `Tkinter` is GUI builder which comprises of `frame or canvas` and `children or widget` which arraged using `layout manager` method, and `pillow` was use so we could insert some image to the GUI.<br>
+
+>`Object Oriented Program` style was mainly used to develop this GUI app. Every `menu group` in this app designed to be encapsulated into one class, then every `menu` will be act as instance of this class. Inside every class, `frame` and `widget` are arranged to construct GUI, function from connector then embeded to specific `widget` to connect GUI to database. Here is the list of class and instance in `lib-management-gui-app.py`
 
 <table>
     <thead>
@@ -130,13 +129,13 @@ GUI was designed by using library `tkinter` and `pillow`. `Tkinter` basic buildi
     </tbody>
 </table>
 
-### 6. Test, Correct, update, and enhance the code defense if there is a mistake
-After GUI finish and can be executed by python, then development continued to test te application. Several error was foound at the development, but that was good to enhance the application defence to false input from the user, and make sure the application function as intended
+### 6. Test, correct, update, and enhance the code defense
+After GUI, connector, and database finish and whole program can be executed, then development continued to test the application. Several error was foound when developing, but that was good to enhance the application defence to false input from the user, and make sure the application function as intended. After this step every menu now have a `good defense` if librarian fail to input necessary data to the database. 
 
 ### 7. Create the executable file
 <p align="center"><img height=150 src="image/pyinstaller.jpg"></p>
 
-`PyInstaller` was use to create the executable file for the application. This third party library convert .py file into .exe file. It is suitable for this app development. The output then become fully operational application `lib-management-app.exe`.  
+`PyInstaller` them utilized to create the executable file for the `SAT Library Manager System` application. This third party library convert `.py` file into `.exe` file. It is suitable for this app development. The output then become fully operational application `lib-management-app.exe`.  
 
 ## Application Menu
 ### 1. Login Page
