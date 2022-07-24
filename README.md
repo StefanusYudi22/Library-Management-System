@@ -1,4 +1,4 @@
-<p align="center"><img width=1000 src="image/sat_lms.png"></p>
+<p align="center"><img width=1000 src="sat_lms.png"></p>
 
 __`SAT Library Management System`__ is an application for helping librarian do the job. This app was designed using `python` as basic programming language and `mysql` as database. [`Tkinter`](https://pypi.org/project/tk/), [`Pillow`](https://pypi.org/project/Pillow/), and [`MySQLConnector`](https://pypi.org/project/mysql-connector-python/) are the third party library use to create this app. This app was developed using windows, compatibility with UNIX operation system need to be tested for futher development. 
 
