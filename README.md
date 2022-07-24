@@ -32,8 +32,12 @@ This project intended to develop an application to help librarian do his/her reg
 
 > `lib_user` table use to store the library member data, this table comprises of field :
 
+<p align="center">
+
 | id_user | first_name | last_name | date_of_birth | occupation | domicile | registration_date |
 |:---|:---:|:---:|:---:|:---:|:---:|---:|
+
+</p>
 
 > `id_user` and `registration_date` designed to be autofilled by mysql
 
@@ -46,8 +50,12 @@ This project intended to develop an application to help librarian do his/her reg
 
 > `loan` table use to store book transaction (loan and return) data for the libary. This table comprises of 
 
+<p align="center">
+
 | transaction_id | id_user | id_book | user_name | book_title | loan_date | supposed_return_date | returned | return_date |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|--:|
+
+</p>
 
 > - `id_user`,`id_book`, `user_name`, and `book_title`, will be autofilled from other table.
 > - `loan_date` will be auto-filled with transaction date.
@@ -125,7 +133,7 @@ GUI was designed by using library `tkinter` and `pillow`. `Tkinter` basic buildi
 It will be interesting if development continued by using UI/UX app such as [`figma`](https://www.figma.com/) or [`sketch`](https://www.sketch.com/). And we can upgrade the simplicity of the code so executable file doesn't have to be as large as now almost 90 MB just for entry and show data.
 
 If u have any other comment you can email-me on yudi.stefanus22@gmail.com or contact me through [my Linkedin](https://www.linkedin.com/in/stefanusyudi22/). Enjoyy....
-
+<p align="center">
 <table>
     <thead>
         <tr>
@@ -152,3 +160,4 @@ If u have any other comment you can email-me on yudi.stefanus22@gmail.com or con
         </tr>
     </tbody>
 </table>
+</p>
