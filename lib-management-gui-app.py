@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 class LoginPage:
     def __init__(self, root=None):
         self.root = root
-        #self.root.resizable(False,False)
+        self.root.resizable(False,False)
         self.root.title("Library Management System")
         self.main_frame = tk.Frame(self.root)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
@@ -19,8 +19,8 @@ class LoginPage:
 
         # frame for sat application image
         self.frame_image = tk.Frame(self.main_frame)
-        self.raw_image = Image.open("image/sat lms.png")     # unresize picture
-        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((246,75), Image.ANTIALIAS))
+        self.raw_image = Image.open("image/sat_lms.png")     # unresize picture
+        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((246,75), Image.Resampling.LANCZOS))
         tk.Label(self.frame_image, image=self.resized_image).pack()
         self.frame_image.pack(padx=5, pady=5)
 
@@ -72,8 +72,8 @@ class StartPage:
 
         # frame for sat application image
         self.frame_image = tk.Frame(self.main_frame)
-        self.raw_image = Image.open("image/sat lms.png")     # unresize picture
-        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((246,75), Image.ANTIALIAS))
+        self.raw_image = Image.open("image/sat_lms.png")     # unresize picture
+        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((246,75), Image.Resampling.LANCZOS))
         tk.Label(self.frame_image, image=self.resized_image).pack()
         self.frame_image.pack(padx=5, pady=5)
 
@@ -349,21 +349,18 @@ class Show:
         
         self.second_frame = tk.Frame(self.main_canvas)
         self.second_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        self.main_canvas.create_window((450,0), window=self.second_frame, anchor="n")
-
-        # frame for data table
-        self.frame_table = tk.Frame(self.second_frame)
-        self.frame_table.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        
+        self.main_canvas.create_window((0,0), window=self.second_frame, anchor="n")
 
         # frame for button
         self.frame_button = tk.Frame(self.second_frame)
-        self.frame_button.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.frame_button.pack(fill=tk.BOTH, expand=True, padx=10, pady=10, side=tk.BOTTOM)
         tk.Button(self.frame_button, text="Back", command=self.go_back).pack(side=tk.LEFT)
     
 
     def start_page(self):
         self.main_frame.pack(fill=tk.BOTH, expand=True)
+        self.frame_table = tk.Frame(self.second_frame) # make frame for table every start page
+        self.frame_table.pack(fill=tk.BOTH, expand=True, padx=10, pady=10, side=tk.TOP)
         self.table = mysqlcon.retrieve_table(self.procedure, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)     # retrieve table from database
         for i in range(len(self.table)):    # data row
             for j in range(len(self.table[0])):    # data column
@@ -399,9 +396,10 @@ class Show:
         elif self.procedure == "show_loans" :
             self.main_canvas.configure(width=940)
         else :
-            self.main_canvas.configure(width=670)
+            self.main_canvas.configure(width=700)
 
     def go_back(self):
+        self.frame_table.destroy()     # destroy frame for table every start page
         self.main_frame.pack_forget()
         self.return_to.main_page() 
 
@@ -432,16 +430,13 @@ class Search:
         tk.Button(self.frame_button, text="Search", command=lambda:[self.search(),self.clear_search()]).pack(side=tk.RIGHT)
         self.registration_label = tk.Label(self.frame_button)
 
-        # frame for search result
-        self.result_frame = tk.Frame(self.main_frame)
-        self.result_frame.pack(padx = 10, pady = 10)
-
     def start_page(self):
         self.main_frame.pack()
-        self.var_search.set("   ")    # starting point for search menu
-        self.search()
+        self.result_frame = tk.Frame(self.main_frame)     # create frame when entering search menu
+        self.result_frame.pack(padx = 10, pady = 10, side=tk.BOTTOM)
 
     def go_back(self):
+        self.result_frame.destroy()    # destroy frame for table every start page
         self.main_frame.pack_forget()
         self.return_to.main_page() 
 
@@ -544,11 +539,12 @@ class BookTransaction:
              self.select_user_id['values'] = mysqlcon.retrieve_id_user_loan(host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
 
     def select_value_book(self,event):
+        self.select_book_id.set("")
         if self.transaction_type == "loan":
              self.select_book_id['values'] = mysqlcon.retrieve_id_book(host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
         else :
              self.select_book_id['values'] = mysqlcon.retrieve_id_book_loan(self.var_user_id.get().split('-')[0], host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
-
+        
     def clear_transaction(self):
         self.select_user_id.set("")
         self.select_book_id.set("")
@@ -564,6 +560,7 @@ class BookTransaction:
         
             mysqlcon.sql_execute(statement, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
             self.clear_transaction()
+            self.select_value_user()     # refresh the content of self.select_user_id
         except :
             self.registration_label.config(text="Wrong input search", fg='red')
 
@@ -609,6 +606,7 @@ class DeleteUser:
             mysqlcon.sql_execute(statement, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
             self.clear_delete_user()
             self.registration_label.config(text="User deleted", fg='green')
+            self.select_value_user()     # refresh the content of self.select_user_id
         except :
             if not self.var_user_id.get():
                 self.registration_label.config(text="Wrong input", fg='red')

@@ -30,7 +30,6 @@ This project purpose is to develop an application to help librarian do his/her t
 > <p align="center"><img width=600 src="image/erd_database.jpg"></p>
 
 >**Table 1** : `lib_user` table designed to store the library member data, this table comprises of field :
-
 > | id_user | first_name | last_name | date_of_birth | occupation | domicile | registration_date |
 >|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 
@@ -43,7 +42,6 @@ This project purpose is to develop an application to help librarian do his/her t
 > `id_book` designed to be autodilled by mysql. `pages` field are very necessary for book data, because value from this field will determine how many days does the library user could borrow the book. Some calculation are designed based on this `pages`value. `stock` field represent the book amount stored in the library. If user borrow a book, then this stock value will decrease, otherwise if someone return book, stock value will increase. After the book stock was zero, no one can borrow the book. 
 
 >**Table 3** : `loan` table designed to store book transaction data (loan and return), this table comprises of field : 
-
 > | transaction_id | id_user | id_book | user_name | book_title | loan_date | supposed_return_date | returned | return_date |
 > |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|--:|
 
@@ -56,9 +54,9 @@ This project purpose is to develop an application to help librarian do his/her t
 ### 3. Create function and Procedure for the database
 > Because the activity of this application is limited, it is a good idea to make `procedures` and `function` inside the database. This also will make the python side more simple to code. Based on defined requirement,  following is the list of designed function and procedure to interact with library database.
 
-|Procedure|input_user, show_users, show_books, show_loans, show_returns, search_user_by_name, search_book_by_title, loan_book, return_book, exit_user|
-|:---:|:---|
-|Function|loan_duration|
+>|Procedure|input_user, show_users, show_books, show_loans, show_returns, search_user_by_name, search_book_by_title, loan_book, return_book, exit_user|
+>|:---:|:---|
+>|Function|loan_duration|
  
 #### Note : Tables, procedures, and functions was encapsulated inside mysql script file `library-management-db.sql` 
 
@@ -130,12 +128,12 @@ This project purpose is to develop an application to help librarian do his/her t
 </table>
 
 ### 6. Test, correct, update, and enhance the code defense
-After GUI, connector, and database finish and whole program can be executed, then development continued to test the application. Several error was foound when developing, but that was good to enhance the application defence to false input from the user, and make sure the application function as intended. After this step every menu now have a `good defense` if librarian fail to input necessary data to the database. 
+>After GUI, connector, and database finish and whole program can be executed, then development continued to test the application. Several error was foound when developing, but that was good to enhance the application defence to false input from the user, and make sure the application function as intended. After this step every menu now have a `good defense` if librarian fail to input necessary data to the database. 
 
 ### 7. Create the executable file
 <p align="center"><img height=150 src="image/pyinstaller.jpg"></p>
 
-`PyInstaller` them utilized to create the executable file for the `SAT Library Manager System` application. This third party library convert `.py` file into `.exe` file. It is suitable for this app development. The output then become fully operational application `lib-management-app.exe`.  
+>`PyInstaller` them utilized to create the executable file for the `SAT Library Manager System` application. This third party library convert `.py` file into `.exe` file. It is suitable for this app development. The output then become fully operational application `lib-management-app.exe`.  
 
 ## Application Menu
 ### 1. Login Page
@@ -154,7 +152,7 @@ After GUI, connector, and database finish and whole program can be executed, the
 > `User Registration` page is use to input new libary member data. This page will fill `lib_user` table inside the `library` database through button `submit`. Librarian have to fill the label with * button, if not the data wont enter the database. `Clear` button use to clear the entry registration that hasn't been sumbitted. Every `Clearn` button behave similar for every page in this app.  
 
 ### 4. New Book Registration
-<p align="center"><img width=500 src="image/book_regis.jpg"></p>
+><p align="center"><img width=500 src="image/book_regis.jpg"></p>
 
 > `Book Registration` page is use to input library new book data. This page will fill `book` table inside the `library` database. Behaviour of this page similar to `New User Registration` page.
 
@@ -165,6 +163,7 @@ After GUI, connector, and database finish and whole program can be executed, the
 
 ### 6. Show List of Book
 ><p align="center"><img width=500 src="image/book_list.jpg"></p>
+
 > `List Book` page shows list of book data registered to the library. This page take data from `book` table in the `library` database.
 
 ### 7. Show List of Loan
@@ -187,12 +186,12 @@ After GUI, connector, and database finish and whole program can be executed, the
 
 >`Search book by name` page function as seach menu to registered book in the library. This page behaves similarly to `Search book by name` page.
 
-### 10. Loan Book
+### 11. Loan Book
 ><p align="center"><img width=500 src="image/loan_menu.jpg"></p>
 
 >`Loan book` page is use if any member want to loan book from the library. This page will input data to `loan` table in the database. Librarian need to select `user_id` and `book_id` for this page. Fail to input this id, page will prompt error to librarian.
 
-### 11. Return Book
+### 12. Return Book
 ><p align="center"><img width=500 src="image/return_book.jpg"></p>
 
 >`Return book` page is use if any member want to return the book to the library. The book list will show only the book that borrowed by the library member. Fail to input this id, page will prompt error to librarian.

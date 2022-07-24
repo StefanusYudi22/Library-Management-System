@@ -86,7 +86,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE show_returns()
 BEGIN
-	SELECT  id_user, id_book, user_name, book_title, loan_date, returned_date
+	SELECT  transaction_id, id_user, id_book, user_name, book_title, loan_date, returned_date
     FROM loan
     WHERE returned='YES';
 END $$
