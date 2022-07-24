@@ -32,34 +32,22 @@ This project intended to develop an application to help librarian do his/her reg
 
 > `lib_user` table use to store the library member data, this table comprises of field :
 
-<center>
-
 | id_user | first_name | last_name | date_of_birth | occupation | domicile | registration_date |
 |:---|:---:|:---:|:---:|:---:|:---:|---:|
-
-</center>
 
 > `id_user` and `registration_date` designed to be autofilled by mysql
 
 > `book` table use to store the library book data, this table comprises of field:
 
-<center>
-
 | id_book | title | year_published | pages | _language | author | category | stock |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|---:|
-
-</center>
 
 > `id_book` designed to be autodilled by mysql
 
 > `loan` table use to store book transaction (loan and return) data for the libary. This table comprises of 
 
-<center>
-
 | transaction_id | id_user | id_book | user_name | book_title | loan_date | supposed_return_date | returned | return_date |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|--:|
-
-</center>
 
 > - `id_user`,`id_book`, `user_name`, and `book_title`, will be autofilled from other table.
 > - `loan_date` will be auto-filled with transaction date.
@@ -69,9 +57,7 @@ This project intended to develop an application to help librarian do his/her reg
 > - `return_date` will be auto-filled with returned transaction date. 
 
 ### 3. Create Function and Procedure for the Database<br>
-> Because the activity of this application is limited, it is a good idea to make procedures and function, this also will make the connector and python more simple to code. Following is the list of function and procedure in this project
-
-<center>
+> Because the activity of this application is limited, it is a good idea to make `procedures` and `function`, this also will make the connector and python more simple to code. Following is the list of function and procedure in this project
 
 | Procedure | Function |
 |:---:|:---:|
@@ -87,11 +73,29 @@ This project intended to develop an application to help librarian do his/her reg
 |return_book|
 |exit_user|
 
-</center>
+This table and function was encapsulated inside mysql script file `library-management-db.sql` 
 
 ### 4. Create Connector for Database to Python
+Connector was designed to connect mysql database to python GUI. `connect_mysql.py` files contain necesarry function to connect database to GUI. It is made separated from GUI python code to maintain code modularity. This file later imported to `lib-management-gui-app.py` to fully functioning this app
+
 ### 5. Create GUI for every menu defined
-### 6. Connect the GUI to Database
+
+GUI was designed by using library `tkinter` and `pillow`. `Tkinter` basic building comprises of `frame or canvas` and `children or widget` which arraged using `layout manager` method. `Object Oriented Program` style was mainly used to develop this app. Every menu group in this app designed to be encapsulated into one class, then every menu will be act as instance of this class. Inside every class, `frame` and `widget` are arranged to construct GUI menu, function from connector are embeded to specific `widget` to connect GUI to database. Here is the list of class and instance in `lib-management-gui-app.py`
+
+| Class | Instance |
+|:---:|:---:|
+|LoginPage|app|
+|StartPage|
+|Show|
+|Search|
+|BookTransaction|
+|DeleteUser|
+|search_user_by_name|
+|search_book_by_title|
+|loan_book|
+|return_book|
+|exit_user|
+
 ### 7. Test every menu inside the App, enhance the code defense
 ### 8. Correct/Update the code if there is a mistake
 ### 9. Create the executable file
@@ -121,3 +125,30 @@ This project intended to develop an application to help librarian do his/her reg
 It will be interesting if development continued by using UI/UX app such as [`figma`](https://www.figma.com/) or [`sketch`](https://www.sketch.com/). And we can upgrade the simplicity of the code so executable file doesn't have to be as large as now almost 90 MB just for entry and show data.
 
 If u have any other comment you can email-me on yudi.stefanus22@gmail.com or contact me through [my Linkedin](https://www.linkedin.com/in/stefanusyudi22/). Enjoyy....
+
+<table>
+    <thead>
+        <tr>
+            <th>Layer 1</th>
+            <th>Layer 2</th>
+            <th>Layer 3</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan=4>L1 Name</td>
+            <td rowspan=2>L2 Name A</td>
+            <td>L3 Name A</td>
+        </tr>
+        <tr>
+            <td>L3 Name B</td>
+        </tr>
+        <tr>
+            <td rowspan=2>L2 Name B</td>
+            <td>L3 Name C</td>
+        </tr>
+        <tr>
+            <td>L3 Name D</td>
+        </tr>
+    </tbody>
+</table>
