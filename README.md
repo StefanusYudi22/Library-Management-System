@@ -1,6 +1,6 @@
 <p align="center"><img width=1000 src="image/sat_lms.png"></p>
 
-__`SAT Library Management System`__ is an application for helping librarian do the job. This app was designed using `python` as basic programming language and `mysql` as database. `Tkinter`, `Pillow`, and `MySQLConnector` are the third party library use to create this app. This app was developed using windows, compatibility with UNIX operation system need to be tested for futher development. 
+__`SAT Library Management System`__ is an application for helping librarian do the job. This app was designed using `python` as basic programming language and `mysql` as database. [`Tkinter`](https://pypi.org/project/tk/), [`Pillow`](https://pypi.org/project/Pillow/), and [`MySQLConnector`](https://pypi.org/project/mysql-connector-python/) are the third party library use to create this app. This app was developed using windows, compatibility with UNIX operation system need to be tested for futher development. 
 
 <p align="center">
 <img height=125 src="image/tkinter_logo.jpg">
@@ -196,14 +196,16 @@ This project purpose is to develop an application to help librarian do his/her t
 
 >`Return book` page is use if any member want to return the book to the library. The book list will show only the book that borrowed by the library member. Fail to input this id, page will prompt error to librarian.
 
-### 12. Clear User
+### 13. Clear User
 ><p align="center"><img width=500 src="image/clear_user.jpg"></p>
 
 > `Clear user` page is use if anyone want to exit from library user and librarian need to erase user data from the library. First to note that the member have to be `returned all the book` first, unless the member data cannot be erased from the database. Fail to input this id, page will prompt error to librarian.
 
 ## How to Use This Program
-1. Make sure you have python and mysql inside your local system
-2. Install Third party module prequisit for the application : Tkinter, Pillow, MySQL Connector
+1. Make sure you have `python`, `pip`, and `mysql` inside your local system
+2. Install third party module prequisit for the application : `Tkinter`, `pillow`, and `MySQL Connector`
+> - Tkinter : `pip install tk`
+> - Pillow : 
 3. Clone this repository
 4. Execute the sql script to create the database
 5. For gui you can execute the py files or exe files
