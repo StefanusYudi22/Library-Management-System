@@ -202,17 +202,17 @@ This project purpose is to develop an application to help librarian do his/her t
 > `Clear user` page is use if anyone want to exit from library user and librarian need to erase user data from the library. First to note that the member have to be `returned all the book` first, unless the member data cannot be erased from the database. Fail to input this id, page will prompt error to librarian.
 
 ## How to Use This Program
-1. Make sure you have `python`, `pip`, and `mysql` inside your local system
-2. Install third party module prequisit for the application : `Tkinter`, `pillow`, and `MySQL Connector` from local terminal : 
+1. make sure you have `python`, `pip`, and `mysql` inside your local system
+2. install third party module prequisit for the application : `Tkinter`, `pillow`, and `MySQL Connector` from local terminal : 
 > - Tkinter : `pip install tk`
 > - Pillow : `pip install Pillow`
 > - MySQL Connector : `pip install mysql-connector-python`
-3. Clone this repository into local device, you will get `Library-Management-System` folder 
-4. Execute the `library-management-db.sql` script inside your mysql workbench to create the database, table and dummy data for this application.
-5. Execute the library-management-gui-app.py from the terminal using python from `Library-Management-System` folder 
+3. clone this repository into local device, you will get `Library-Management-System` folder 
+4. execute the `library-management-db.sql` script inside your mysql workbench to create the database, table and dummy data for this application.
+5. execute the library-management-gui-app.py from the terminal using python from `Library-Management-System` folder 
 > - `python library-management-gui-app.py`
-6. Then you will get this application fully operational
-7. OR just clone this repository, execute the `library-management-db.sql` in mysql, and run the `SAT-LMS-App.exe` in your local device.
+6. then you will get this application fully operational
+7. or just clone this repository, execute the `library-management-db.sql` in mysql, and run the `SAT-LMS-App.exe` in your local device for windows OS user. Or you can get [`Wine`](https://www.wikihow.com/Can-Linux-Run-Exe) for Unix based OS. Note there will be prompt to run thise .exe file.
 
 ## Suggestion
 It will be interesting if development continued by using UI/UX app such as [`figma`](https://www.figma.com/) or [`sketch`](https://www.sketch.com/). Also it will be very powerfull if the data is already huge, the development can be continued to analysis the transaction data, to know the user characteristic about certain book category. Just my opinion
