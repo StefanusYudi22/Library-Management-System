@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS book(
 
 # Table to store loan info
 CREATE TABLE IF NOT EXISTS loan(
+	transaction_id INT AUTO_INCREMENT NOT NULL,
 	id_user INT, 
     id_book INT,
     user_name VARCHAR(20),
@@ -36,10 +37,10 @@ CREATE TABLE IF NOT EXISTS loan(
     supposed_return_date DATE,    # will be filled with loan_duration_function
     returned ENUM('YES','NOT YET') DEFAULT 'NOT YET',    # will be filled with return_function
     returned_date DATE DEFAULT '1990-11-11',    # will be filled with default date of return_function called
-    CONSTRAINT pk_loan PRIMARY KEY (id_user, id_book),
+    CONSTRAINT pk_loan PRIMARY KEY (transaction_id),
     CONSTRAINT fk_id_user FOREIGN KEY (id_user) REFERENCES lib_user(id_user),
 	CONSTRAINT fk_id_book FOREIGN KEY (id_book) REFERENCES book(id_book)
-);
+)AUTO_INCREMENT=100;
 
 
 # function loan_days ==> return how many days should the book borrowed
@@ -77,7 +78,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE show_loans()
 BEGIN
-	SELECT * FROM loan ORDER BY id_user, id_book;
+	SELECT * FROM loan ORDER BY transaction_id;
 END $$
 DELIMITER ;
 
@@ -191,7 +192,7 @@ INSERT INTO book (title, year_published, pages, _language, author, category, sto
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Harry Potter and The Order Of The Phoenix', '2003', '1000', 'English', 'JK Rowling', 'novel', 1);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Sepatu Dahlan', '2015', '369', 'Bahasa', 'Tiar Yuniar', 'novel', 3);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Sang Pemimpi', '2003', '248', 'Bahasa', 'Nurul Padmasari', 'novel', 2);
-INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Ensiklopedia Luar Angkasa', '2010', '258', 'Sarah Hassanah', 'Space Station', 'encyclopedia', 10);
+INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Ensiklopedia Luar Angkasa', '2010', '258', 'English', 'Space Station', 'encyclopedia', 10);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Trik Jitu Saham', '2019', '100', 'Bahasa', 'Vanya Farida', 'magazine', 9);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('Fairy Tail Comic', '1986', '255', 'Japan', 'Yulia Purwanti', 'comic', 12);
 INSERT INTO book (title, year_published, pages, _language, author, category, stock) VALUES ('What is a Car', '1989', '59', 'Deutch', 'Karimah Wijayanti', 'scientific', 25);

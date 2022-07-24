@@ -1,15 +1,74 @@
-import mysql_connector as mysqlcon
+import mysql.connector
+from mysql.connector import Error
+import connect_mysql as mysqlcon
+
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 
-# front menu of the library management system application
-class StartPage:
+class LoginPage:
     def __init__(self, root=None):
         self.root = root
+        #self.root.resizable(False,False)
         self.root.title("Library Management System")
         self.main_frame = tk.Frame(self.root)
+        self.main_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.user_name = tk.StringVar()
+        self.password = tk.StringVar()
+
+        # frame for sat application image
+        self.frame_image = tk.Frame(self.main_frame)
+        self.raw_image = Image.open("image/sat lms.png")     # unresize picture
+        self.resized_image = ImageTk.PhotoImage(self.raw_image.resize((246,75), Image.ANTIALIAS))
+        tk.Label(self.frame_image, image=self.resized_image).pack()
+        self.frame_image.pack(padx=5, pady=5)
+
+        # frame for form
+        self.form_frame = tk.Frame(self.main_frame)
+        self.form_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        tk.Label(self.form_frame, text="Database User Name : ").grid(row=0, column=0, sticky='w')
+        tk.Label(self.form_frame, text="Database User Password : ").grid(row=1, column=0, sticky='w')
+
+        self.input_user_id = tk.Entry(self.form_frame, textvariable=self.user_name, width=30)
+        self.input_password = tk.Entry(self.form_frame, textvariable=self.password, show="*", width=30)
+        self.input_user_id.grid(row=0, column=1)
+        self.input_password.grid(row=1, column=1)
+
+        # frame for button
+        self.button_frame = tk.Frame(self.main_frame)
+        self.button_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        tk.Button(self.button_frame, text="Log In", command=self.get_credential).pack(side=tk.RIGHT, padx=5)
+        self.registration_label = tk.Label(self.button_frame, text='Login Failure', fg='red')
+
+        self.start_page = StartPage(master=self.root, return_to=self)
+
+    def get_credential(self):
+        try :
+            global USER_NAME
+            global PASSWORD 
+            USER_NAME = self.user_name.get()
+            PASSWORD = self.password.get()
+            mydb = mysql.connector.connect(host=HOST_NAME, user=USER_NAME, passwd=PASSWORD, database=DB)
+            self.input_user_id.delete(0,'end')
+            self.input_password.delete(0,'end')
+            self.main_frame.pack_forget()
+            self.start_page.main_page()
+        except Error as err:
+            self.input_user_id.delete(0,'end')
+            self.input_password.delete(0,'end')
+            self.registration_label.pack(side=tk.RIGHT, padx=5)
+            self.registration_label.after(1000, self.registration_label.pack_forget)
+    
+    def login_page(self):
         self.main_frame.pack()
+
+# front menu of the library management system application
+class StartPage:
+    def __init__(self, master=None, return_to=None):
+        self.master = master
+        self.return_to = return_to
+        self.main_frame = tk.Frame(self.master)
 
         # frame for sat application image
         self.frame_image = tk.Frame(self.main_frame)
@@ -43,6 +102,8 @@ class StartPage:
                                 command=lambda:[self.main_frame.pack_forget(), self.return_book.start_page()])
         self.menu_11 = tk.Button(self.frame_buttons, text="Clear User",
                                 command=lambda:[self.main_frame.pack_forget(), self.delete_user.start_page()])
+        self.menu_12 = tk.Button(self.frame_buttons, text="Log Off",
+                                command=self.go_to_login)
 
         self.menu_1.grid(column=0, row=0, columnspan=7, sticky='we', pady=3)
         self.menu_2.grid(column=7, row=0, columnspan=6, sticky='we', pady=3)
@@ -52,32 +113,37 @@ class StartPage:
         self.menu_6.grid(column=10, row=1, columnspan=3, sticky='we', pady=3)
         self.menu_7.grid(column=0, row=2, columnspan=7, sticky='we', pady=3)
         self.menu_8.grid(column=7, row=2, columnspan=6, sticky='we', pady=3)
-        self.menu_9.grid(column=0, row=3, columnspan=5, sticky='we', pady=3)
-        self.menu_10.grid(column=5, row=3, columnspan=4, sticky='we', pady=3)
-        self.menu_11.grid(column=9, row=3, columnspan=4, sticky='we', pady=3)
+        self.menu_9.grid(column=0, row=3, columnspan=3, sticky='we', pady=3)
+        self.menu_10.grid(column=4, row=3, columnspan=3, sticky='we', pady=3)
+        self.menu_11.grid(column=7, row=3, columnspan=3, sticky='we', pady=3)
+        self.menu_12.grid(column=10, row=3, columnspan=3, sticky='we', pady=3)
         # tk.Button(self.frame_buttons, text="Quit", command=self.root.destroy).grid(column=2, row=3, sticky='we')
 
         # menu frame instance
-        self.user_registration = UserRegistration(master=self.root, app=self)
-        self.book_registration = BookRegistration(master=self.root, app=self)
-        self.show_users = Show(master=self.root, app=self, procedure="show_users")
-        self.show_books = Show(master=self.root, app=self, procedure="show_books")
-        self.show_loans = Show(master=self.root, app=self, procedure="show_loans")
-        self.show_returns = Show(master=self.root, app=self, procedure="show_returns")
-        self.search_user = Search(master=self.root, app=self, mode="user")
-        self.search_book = Search(master=self.root, app=self, mode="book")
-        self.loan_book = BookTransaction(master=self.root, app=self, transaction_type="loan")
-        self.return_book = BookTransaction(master=self.root, app=self, transaction_type="return")
-        self.delete_user = DeleteUser(master=self.root, app=self)
+        self.user_registration = UserRegistration(master=self.master, return_to=self)
+        self.book_registration = BookRegistration(master=self.master, return_to=self)
+        self.show_users = Show(master=self.master, return_to=self, procedure="show_users")
+        self.show_books = Show(master=self.master, return_to=self, procedure="show_books")
+        self.show_loans = Show(master=self.master, return_to=self, procedure="show_loans")
+        self.show_returns = Show(master=self.master, return_to=self, procedure="show_returns")
+        self.search_user = Search(master=self.master, return_to=self, mode="user")
+        self.search_book = Search(master=self.master, return_to=self, mode="book")
+        self.loan_book = BookTransaction(master=self.master, return_to=self, transaction_type="loan")
+        self.return_book = BookTransaction(master=self.master, return_to=self, transaction_type="return")
+        self.delete_user = DeleteUser(master=self.master, return_to=self)
     
     def main_page(self):
         self.main_frame.pack()
 
+    def go_to_login(self):
+        self.main_frame.pack_forget()
+        self.return_to.login_page()
+
 # menu for library user registration
 class UserRegistration:
-    def __init__(self, master=None, app=None):
+    def __init__(self, master=None, return_to=None):
         self.master = master
-        self.app = app
+        self.return_to = return_to
         self.main_frame = tk.Frame(self.master)
         
         # frame for user form
@@ -133,7 +199,7 @@ class UserRegistration:
 
     def go_back(self):
         self.main_frame.pack_forget()
-        self.app.main_page()    
+        self.return_to.main_page()    
 
     def input_user(self):
         if (self.var_first_name.get() 
@@ -146,7 +212,7 @@ class UserRegistration:
                                                  '{self.var_year.get()}-{self.var_month.get()}-{self.var_day.get()}',
                                                  '{self.var_occupation.get()}',
                                                  '{self.var_domicile.get()}')"""
-            mysqlcon.sql_execute(self.statement)
+            mysqlcon.sql_execute(self.statement, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
             self.registration_label.config(text="User Registration Successfull", fg='green')
             self.clear_user_registration()
         else:
@@ -166,9 +232,9 @@ class UserRegistration:
 
 # menu for library book registration
 class BookRegistration:
-    def __init__(self, master=None, app=None):
+    def __init__(self, master=None, return_to=None):
         self.master = master
-        self.app = app
+        self.return_to = return_to
         self.main_frame = tk.Frame(self.master)
 
         # frame for user form
@@ -225,7 +291,7 @@ class BookRegistration:
 
     def go_back(self):
         self.main_frame.pack_forget()
-        self.app.main_page() 
+        self.return_to.main_page() 
     
     def input_book(self):
         try : 
@@ -242,7 +308,7 @@ class BookRegistration:
                                                     '{self.var_book_author.get()}',
                                                     '{self.var_book_category.get()}',
                                                     {self.var_book_stock.get()})"""
-                mysqlcon.sql_execute(self.statement)
+                mysqlcon.sql_execute(self.statement, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
                 self.registration_label.config(text="Book Registration Successfull", fg='green')
                 self.clear_book_registration()
             else:
@@ -265,9 +331,9 @@ class BookRegistration:
 
 # menu for showing library content
 class Show:
-    def __init__ (self, master=None, app=None, procedure=None):    # procedure show_users or show_books or
+    def __init__ (self, master=None, return_to=None, procedure=None):    # procedure show_users or show_books or
         self.master = master                                       # show_loans or show_users
-        self.app = app                                             
+        self.return_to = return_to                                             
         self.procedure = procedure
         self.main_frame = tk.Frame(self.master)
 
@@ -298,7 +364,7 @@ class Show:
 
     def start_page(self):
         self.main_frame.pack(fill=tk.BOTH, expand=True)
-        self.table = mysqlcon.retrieve_table(self.procedure)     # retrieve table from database
+        self.table = mysqlcon.retrieve_table(self.procedure, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)     # retrieve table from database
         for i in range(len(self.table)):    # data row
             for j in range(len(self.table[0])):    # data column
                 if i == 0:
@@ -327,23 +393,23 @@ class Show:
                 self.box.config(text = self.table[i][j])
         
         if self.procedure == "show_users":
-            self.main_canvas.configure(width=630)
+            self.main_canvas.configure(width=660)
         elif self.procedure == "show_books" : 
-            self.main_canvas.configure(width=820)
+            self.main_canvas.configure(width=840)
         elif self.procedure == "show_loans" :
-            self.main_canvas.configure(width=890)
+            self.main_canvas.configure(width=940)
         else :
             self.main_canvas.configure(width=670)
 
     def go_back(self):
         self.main_frame.pack_forget()
-        self.app.main_page() 
+        self.return_to.main_page() 
 
 # menu for searching book and user by name
 class Search:
-    def __init__ (self, master, app, mode):    # mode "user" or "book"
+    def __init__ (self, master=None, return_to=None, mode=None):    # mode "user" or "book"
         self.master = master
-        self.app = app
+        self.return_to = return_to
         self.main_frame = tk.Frame(self.master)
         self.mode = mode
 
@@ -377,7 +443,7 @@ class Search:
 
     def go_back(self):
         self.main_frame.pack_forget()
-        self.app.main_page() 
+        self.return_to.main_page() 
 
     def label(self):
         if self.mode == "user" :
@@ -392,7 +458,7 @@ class Search:
             else :
                 self.procedure = f"search_book_by_title('{self.var_search.get()}')"
 
-            self.table = mysqlcon.retrieve_table(self.procedure)     # retrieve table from database
+            self.table = mysqlcon.retrieve_table(self.procedure, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)     # retrieve table from database
 
             for widget in self.result_frame.winfo_children():
                 widget.destroy()
@@ -431,9 +497,9 @@ class Search:
         self.search_entry.delete(0, 'end')
 
 class BookTransaction:
-    def __init__ (self, master=None, app=None, transaction_type=None):    # transaction "loan" or "return"
+    def __init__ (self, master=None, return_to=None, transaction_type=None):    # transaction "loan" or "return"
         self.master = master
-        self.app = app
+        self.return_to = return_to
         self.transaction_type = transaction_type
         self.main_frame = tk.Frame(self.master)
 
@@ -469,19 +535,19 @@ class BookTransaction:
 
     def go_back(self):
         self.main_frame.pack_forget()
-        self.app.main_page()
+        self.return_to.main_page()
 
     def select_value_user(self):
         if self.transaction_type == "loan":
-             self.select_user_id['values'] = mysqlcon.retrieve_id_user()
+             self.select_user_id['values'] = mysqlcon.retrieve_id_user(host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
         else :
-             self.select_user_id['values'] = mysqlcon.retrieve_id_user_loan()
+             self.select_user_id['values'] = mysqlcon.retrieve_id_user_loan(host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
 
     def select_value_book(self,event):
         if self.transaction_type == "loan":
-             self.select_book_id['values'] = mysqlcon.retrieve_id_book()
+             self.select_book_id['values'] = mysqlcon.retrieve_id_book(host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
         else :
-             self.select_book_id['values'] = mysqlcon.retrieve_id_book_loan(self.var_user_id.get().split('-')[0])
+             self.select_book_id['values'] = mysqlcon.retrieve_id_book_loan(self.var_user_id.get().split('-')[0], host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
 
     def clear_transaction(self):
         self.select_user_id.set("")
@@ -496,7 +562,7 @@ class BookTransaction:
                 self.registration_label.config(text="Book Returned", fg='green')
                 statement = f"CALL return_book({self.var_user_id.get().split('-')[0]},{self.var_book_id.get().split('-')[0]})"
         
-            mysqlcon.sql_execute(statement)
+            mysqlcon.sql_execute(statement, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
             self.clear_transaction()
         except :
             self.registration_label.config(text="Wrong input search", fg='red')
@@ -505,9 +571,9 @@ class BookTransaction:
         self.registration_label.after(1000, self.registration_label.pack_forget)    # retain label for 1 second
 
 class DeleteUser:
-    def __init__(self, master, app):
+    def __init__(self, master=None, return_to=None):
         self.master = master
-        self.app = app
+        self.return_to = return_to
         self.main_frame = tk.Frame(self.master)
 
         # frame for form
@@ -531,16 +597,16 @@ class DeleteUser:
         self.select_value_user()
 
     def select_value_user(self):
-        self.select_user_id['values'] = mysqlcon.retrieve_id_user()
+        self.select_user_id['values'] = mysqlcon.retrieve_id_user(host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
 
     def go_back(self):
         self.main_frame.pack_forget()
-        self.app.main_page()
+        self.return_to.main_page()
     
     def delete_user(self):
         try : 
             statement = f"""CALL exit_user('{self.var_user_id.get().split('-')[0]}')"""
-            mysqlcon.sql_execute(statement)
+            mysqlcon.sql_execute(statement, host_name=HOST_NAME, user_name=USER_NAME, password=PASSWORD, db=DB)
             self.clear_delete_user()
             self.registration_label.config(text="User deleted", fg='green')
         except :
@@ -556,6 +622,10 @@ class DeleteUser:
         self.select_user_id.set("")
 
 if __name__ == '__main__':
+    HOST_NAME = "localhost"
+    DB = "library"
+    USER_NAME = ""
+    PASSWORD = ""
     root = tk.Tk()
-    app = StartPage(root)
+    app = LoginPage(root)
     root.mainloop()
