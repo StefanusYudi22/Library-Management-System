@@ -1,11 +1,11 @@
-<p align="center"><img width=1000 src="image/sat lms.png"></p>
+<p align="center"><img width=1000 src="image/sat_lms.png"></p>
 
 __`SAT Library Management System`__ is an application for helping librarian do the job. This app was designed using `python` as basic programming language and `mysql` as database. `Tkinter`, `Pillow`, and `MySQLConnector` are the third party library use to create this app. This app was developed using windows, compatibility with UNIX operation system need to be tested for futher development. 
 
 <p align="center">
-<img height=150 src="image/tkinter_logo.jpg">
-<img height=150 src="image/pillow_logo.jpg">
-<img height=150 src="image/mysql_logo.jpg">
+<img height=125 src="image/tkinter_logo.jpg">
+<img height=125 src="image/pillow_logo.jpg">
+<img height=125 src="image/mysql_logo.jpg">
 </P>
 
 __`SAT Library Management System`__ app capability such as :
@@ -40,7 +40,7 @@ This project purpose is to develop an application to help librarian do his/her t
 >| id_book | title | year_published | pages | _language | author | category | stock |
 >|:---|:---:|:---:|:---:|:---:|:---:|:---:|---:|
 
-> `id_book` designed to be autodilled by mysql. `pages` field are very necessary for book data, because value from this field will determine how many days does the library user could borrow the book. Some calculation are designed based on this `pages`value. `stock` field represent the book amount stored in the library. If user borrow a book, then this stock value will decrease, otherwise if someone return book, stock value will increase. 
+> `id_book` designed to be autodilled by mysql. `pages` field are very necessary for book data, because value from this field will determine how many days does the library user could borrow the book. Some calculation are designed based on this `pages`value. `stock` field represent the book amount stored in the library. If user borrow a book, then this stock value will decrease, otherwise if someone return book, stock value will increase. After the book stock was zero, no one can borrow the book. 
 
 >**Table 3** : `loan` table designed to store book transaction data (loan and return), this table comprises of field : 
 
@@ -139,56 +139,68 @@ After GUI, connector, and database finish and whole program can be executed, the
 
 ## Application Menu
 ### 1. Login Page
-> <p align="center"><img width = 250 src="image/login_page.jpg"></p>
-> Login page require your database credential (username, and password), it connect directly to mysql-server installed in local computer. 
+> <p align="center"><img width=500 src="image/login_page.jpg"></p>
+
+> `Login page` require to input your installed mysql database credential (username and password). After you click login then you will move to the main page, and in you click `Log Off` at main page, you will be back into this `login page`. 
 
 ### 2. Main Page
-> <p align="center"><img width = 300 src="image/start_page.jpg"></p>
-> Main page contains all menu inside the application. This menu is the result of defined requirement for librarian job at the first time
+> <p align="center"><img width=500 src="image/start_page.jpg"></p>
+
+> `Main page` contains all menu. This menu is the result of defined requirement for the application. From this page you can navigate to any other page by clicking menu button. To go back to this page after entering another page, you can click `Back` button in every page.   
 
 ### 3. New User Registration
-><p align="center"><img width=250 src="image/user_regis.jpg"></p>
-> User Registration menu is use to input new libary member data. This page has defense if you not fill it completely, member data won't be entering database
+><p align="center"><img width=500 src="image/user_regis.jpg"></p>
 
-### 3. New Book Registration
-<p align="center"><img width=250 src="image/book_regis.jpg"></p>
-> Book Registration menu is use to input new book data. This page has defense if you not fill it completely, book data won't be entering database
+> `User Registration` page is use to input new libary member data. This page will fill `lib_user` table inside the `library` database through button `submit`. Librarian have to fill the label with * button, if not the data wont enter the database. `Clear` button use to clear the entry registration that hasn't been sumbitted. Every `Clearn` button behave similar for every page in this app.  
 
-### 4. Show List of User
+### 4. New Book Registration
+<p align="center"><img width=500 src="image/book_regis.jpg"></p>
+
+> `Book Registration` page is use to input library new book data. This page will fill `book` table inside the `library` database. Behaviour of this page similar to `New User Registration` page.
+
+### 5. Show List of User
 ><p align="center"><img width=500 src="image/user_list.jpg"></p>
-> This menu show list of user data registered to the library  
 
-### 5. Show List of Book
+> `List User` page shows list of user data registered to the library. This page take data from `lib_user` table in the `library` database.   
+
+### 6. Show List of Book
 ><p align="center"><img width=500 src="image/book_list.jpg"></p>
-> This menu show list of book data registered to the library
+> `List Book` page shows list of book data registered to the library. This page take data from `book` table in the `library` database.
 
-### 6. Show List of Loan
+### 7. Show List of Loan
 ><p align="center"><img width=500 src="image/loan_list.jpg"></p>
-> This menu show list of loaned book and it's status, whether it is has been returned or not
 
-### 7. Show List of Return
+> `List Loan` page shows list of loaned book and it's status, whether it is has been returned or not. This page take data from `loan` table in the `library` database.
+
+### 8. Show List of Return
 ><p align="center"><img width=500 src="image/returned_book.jpg"></p>
->This menu show list of returned book to library
 
-### 8. Search User by Name
+>`List Return` page shows returned book to library. This page take data from `loan` table with some filter in the querry.
+
+### 9. Search User by Name
 ><p align="center"><img width=500 src="image/search_user.jpg"></p>
->Search user by name menu function as seach menu for user. Using regex we could search user by its name in the list of user registered
 
-### 9. Seach Book by Name
+>`Search user by name` page function as search menu to registered user data in the library. Using `regex` we could search user by its name in the list of user registered. If librarian false to input the keyword, if will prompt error on the page, tell the librarian that the input is wrong. 
+
+### 10. Seach Book by Name
 ><p align="center"><img width=500 src="image/search_book.jpg"></p>
->Search book by name menu function as seach menu for book. Using regex we could search book by its name in the list of book registered to the library
+
+>`Search book by name` page function as seach menu to registered book in the library. This page behaves similarly to `Search book by name` page.
 
 ### 10. Loan Book
-><p align="center"><img src="image/loan_menu.jpg"></p>
->Loan book menu is use if any member want to loan book from the library. It has specific defense that if the stock of the book at the libary empty, no one can find that on the list to be borrowed. 
+><p align="center"><img width=500 src="image/loan_menu.jpg"></p>
+
+>`Loan book` page is use if any member want to loan book from the library. This page will input data to `loan` table in the database. Librarian need to select `user_id` and `book_id` for this page. Fail to input this id, page will prompt error to librarian.
 
 ### 11. Return Book
-><p align="center"><img src="image/return_book.jpg"></p>
-> Return book menu is use if any member want to return the book to the library. The book list will show only the book that borrowed by the library member
+><p align="center"><img width=500 src="image/return_book.jpg"></p>
+
+>`Return book` page is use if any member want to return the book to the library. The book list will show only the book that borrowed by the library member. Fail to input this id, page will prompt error to librarian.
 
 ### 12. Clear User
-><p align="center"><img src="image/clear_user.jpg"></p>
-> Clear user menu is use if anyone want to erase their data frong the library, but the member have to be returned all the book first, unless the member data cannot be erased from the database
+><p align="center"><img width=500 src="image/clear_user.jpg"></p>
+
+> `Clear user` page is use if anyone want to exit from library user and librarian need to erase user data from the library. First to note that the member have to be `returned all the book` first, unless the member data cannot be erased from the database. Fail to input this id, page will prompt error to librarian.
 
 ## How to Use This Program
 1. Make sure you have python and mysql inside your local system
