@@ -212,7 +212,7 @@ This project purpose is to develop an application to help librarian do his/her t
 5. execute the library-management-gui-app.py from the terminal using python from `Library-Management-System` folder 
 > - `python library-management-gui-app.py`
 6. then you will get this application fully operational
-7. or just clone this repository, execute the `library-management-db.sql` in mysql, and run the `SAT-LMS-App.exe` in your local device for windows OS user. Or you can get [`Wine`](https://www.wikihow.com/Can-Linux-Run-Exe) for Unix based OS. Note there will be prompt to run thise .exe file.
+7. or just clone this repository, execute the `library-management-db.sql` in mysql, and run the `SAT-LMS-App.exe` in your local device for windows OS user. Or you can get [`Wine`](https://www.wikihow.com/Can-Linux-Run-Exe) for Unix based OS. Note there will be secority prompt to run this .exe file on windows, not tested on unix.
 
 ## Suggestion
 It will be interesting if development continued by using UI/UX app such as [`figma`](https://www.figma.com/) or [`sketch`](https://www.sketch.com/). Also it will be very powerfull if the data is already huge, the development can be continued to analysis the transaction data, to know the user characteristic about certain book category. Just my opinion

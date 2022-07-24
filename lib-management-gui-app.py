@@ -13,7 +13,6 @@ class LoginPage:
 
     def __init__(self, root=None):
         self.root = root
-        self.root.resizable(False,False)
         self.root.title("Library Management System")
         self.main_frame = tk.Frame(self.root)
         self.main_frame.pack(fill=tk.BOTH, expand=True)
