@@ -203,15 +203,19 @@ This project purpose is to develop an application to help librarian do his/her t
 
 ## How to Use This Program
 1. Make sure you have `python`, `pip`, and `mysql` inside your local system
-2. Install third party module prequisit for the application : `Tkinter`, `pillow`, and `MySQL Connector`
+2. Install third party module prequisit for the application : `Tkinter`, `pillow`, and `MySQL Connector` from local terminal : 
 > - Tkinter : `pip install tk`
-> - Pillow : 
-3. Clone this repository
-4. Execute the sql script to create the database
-5. For gui you can execute the py files or exe files
+> - Pillow : `pip install Pillow`
+> - MySQL Connector : `pip install mysql-connector-python`
+3. Clone this repository into local device, you will get `Library-Management-System` folder 
+4. Execute the `library-management-db.sql` script inside your mysql workbench to create the database, table and dummy data for this application.
+5. Execute the library-management-gui-app.py from the terminal using python from `Library-Management-System` folder 
+> - `python library-management-gui-app.py`
+6. Then you will get this application fully operational
+7. OR just clone this repository, execute the `library-management-db.sql` in mysql, and run the `SAT-LMS-App.exe` in your local device.
 
 ## Suggestion
-It will be interesting if development continued by using UI/UX app such as [`figma`](https://www.figma.com/) or [`sketch`](https://www.sketch.com/). And we can upgrade the simplicity of the code so executable file doesn't have to be as large as now almost 90 MB just for entry and show data.
+It will be interesting if development continued by using UI/UX app such as [`figma`](https://www.figma.com/) or [`sketch`](https://www.sketch.com/). Also it will be very powerfull if the data is already huge, the development can be continued to analysis the transaction data, to know the user characteristic about certain book category. Just my opinion
 
 If you have any other comment you can email-me on yudi.stefanus22@gmail.com or contact me through [my Linkedin](https://www.linkedin.com/in/stefanusyudi22/). Enjoyy....
 
